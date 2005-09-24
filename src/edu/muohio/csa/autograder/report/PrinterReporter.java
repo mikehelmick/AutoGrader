@@ -18,7 +18,10 @@ import javax.print.SimpleDoc;
 import javax.print.attribute.HashPrintRequestAttributeSet;
 import javax.print.attribute.PrintRequestAttributeSet;
 import javax.print.attribute.standard.Copies;
+import javax.print.attribute.standard.Media;
+import javax.print.attribute.standard.MediaName;
 import javax.print.attribute.standard.MediaSize;
+import javax.print.attribute.standard.MediaSizeName;
 
 import edu.muohio.csa.autograder.StudentRecord;
 
@@ -27,30 +30,34 @@ public class PrinterReporter extends Reporter {
 	private void printHTML( String html ) {
 		
 		// Set the document type
-		DocFlavor myFormat = DocFlavor.STRING.TEXT_HTML;
+		DocFlavor myFormat = DocFlavor.STRING.TEXT_PLAIN;
 		// Create a Doc
 		Doc myDoc = new SimpleDoc( html, myFormat, null); 
+		
 		// Build a set of attributes
 		PrintRequestAttributeSet aset = new HashPrintRequestAttributeSet(); 
-		aset.add(new Copies(1)); 
-		aset.add(MediaSize.NA.LETTER );
+		aset.add( new Copies(1) ); 
+		aset.add( MediaName.NA_LETTER_WHITE );
 		// discover the printers that can print the format according to the
 		// instructions in the attribute set
-		PrintService[] services =
-		        PrintServiceLookup.lookupPrintServices(myFormat, aset);
+		PrintService service = PrintServiceLookup.lookupDefaultPrintService();
 		// Create a print job from one of the print services
-		if (services.length > 0) { 
-		        DocPrintJob job = services[0].createPrintJob(); 
-		        try { 
-		                job.print(myDoc, aset); 
-		        } catch (PrintException pe) {
-		        		System.err.println( pe.getMessage() );
-		        		pe.printStackTrace( System.err );
-		        } 
-		} 
+		if (service != null ) { 
+			System.out.println( "Sending output to: " + service.getName() );
+		    DocPrintJob job = service.createPrintJob(); 
+		    try { 
+		    		job.print(myDoc, aset); 
+		    } catch (PrintException pe) {
+		    		System.err.println( pe.getMessage() );
+		        	pe.printStackTrace( System.err );
+		    } 
+		    
+		} else {
+			System.err.println("No default printer configured");
+		}
 	}
 	
-	public void writeReport( List<StudentRecord> students ) {
+	public void a_writeReport( List<StudentRecord> students ) {
 		
 		for( StudentRecord student : students ) {
 			OutputStream oStream = getStream( student.getStudentId() );

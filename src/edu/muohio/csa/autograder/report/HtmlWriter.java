@@ -16,7 +16,7 @@ public class HtmlWriter {
 	
 	public HtmlWriter( OutputStream oStream ) {
 		this.oStream = oStream;
-		this.writer = new PrintWriter( this.oStream );
+		this.writer = new PrintWriter( this.oStream, true );
 	}
 	
 	public PrintWriter writer() {
