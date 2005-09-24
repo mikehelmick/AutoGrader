@@ -14,6 +14,7 @@ import java.util.Observable;
 import java.util.Observer;
 import java.util.Set;
 
+import edu.muohio.csa.autograder.classpath.DynamicLoader;
 import edu.muohio.csa.autograder.framework.Graded;
 import edu.muohio.csa.autograder.framework.GradingException;
 import edu.muohio.csa.autograder.report.ConsoleReporter;
@@ -36,6 +37,10 @@ public class GradingSession extends Observable implements Runnable {
 	public int packageIndex = 0;
 	
 	public GradingSession() {	
+	}
+	
+	public void addStudentClassPath( String dirPath ) throws IOException {
+		DynamicLoader.addFile( dirPath );
 	}
 	
 	private boolean observersContains( Class clazz ) {
