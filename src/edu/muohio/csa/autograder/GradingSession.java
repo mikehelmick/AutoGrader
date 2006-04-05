@@ -116,7 +116,8 @@ public class GradingSession extends Observable implements Runnable {
 		observers.remove( arg0 );
 	}
 
-	@SuppressWarnings("unchecked")
+
+	@SuppressWarnings({"unchecked","deprecation"})
 	public void run() {
 		setChanged();
 		notifyObservers();
@@ -157,7 +158,50 @@ public class GradingSession extends Observable implements Runnable {
 								// invoke the test method
 								curTestResult.start();
 								graded.getSetupMethod().invoke( graded, (Object[]) null );
-								method.invoke( graded, (Object[])null );
+								
+								Invoker invoker = new Invoker( curTestResult, method, graded );
+								Thread invokerThread = new Thread(invoker, "invoker");
+								invokerThread.start();
+								
+								try { Thread.sleep(100); } catch ( Exception ex ) {}
+								
+								int secondsRemaining = 60;
+								while( secondsRemaining > 0 && invokerThread.isAlive() ) {
+									try {
+										Thread.sleep(1000);
+									} catch ( Exception ex ) {}
+									secondsRemaining --;
+									if ( secondsRemaining > 20 && secondsRemaining % 10 == 0 ) {
+										System.out.print( secondsRemaining + " " );
+									} else if ( secondsRemaining <= 20 ) {
+										System.out.print( secondsRemaining + " " );
+									}
+									
+								}
+								
+								if ( invokerThread.isAlive() ) {
+									// need to kill
+									int count = 3;
+									while( invokerThread.isAlive() && count > 0 ) {
+										System.out.println("\n ** INTERRUPTING METHOD EXECUTION **");
+										try {
+											invokerThread.interrupt();
+											Thread.sleep(100);
+										} catch ( Exception ex ) {
+										}
+										count--;
+									}
+									try {
+										if ( invokerThread.isAlive() ) {
+											invokerThread.stop();
+										}
+									} catch ( Exception ex ) {
+										System.err.println("ERROR _ CAN NOT STOP RUNAWAY METHOD, leaving it..");
+									}
+								}
+								
+								passed = invoker.isPassed();
+								
 								graded.getTearDownMethod().invoke( graded, (Object[])null );
 							} catch ( Throwable t ) {
 								Throwable workOn = t;

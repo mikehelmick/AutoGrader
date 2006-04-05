@@ -19,6 +19,11 @@ public class MyAssignment1<E> implements Assignment1<E> {
 	}
 	
 	public String getItem (){
+		int x = 1;
+		while( x > 0 ) {
+			x = x + 20;
+			x = 1;
+		}
 		return item;
 	}
 	
