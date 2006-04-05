@@ -9,4 +9,6 @@ public interface Assignment1<E> {
 
 	public abstract int return1();
 	
+	public abstract String getItem();
+	
 }

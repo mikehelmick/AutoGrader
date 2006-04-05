@@ -18,7 +18,7 @@ import edu.muohio.csa.autograder.framework.GradingException;
 public abstract class Reporter  {
 	
 	public String getPropperStackFrame( GradingException ex ) {
-		String properFrame = "";
+		String properFrame = null;
 		boolean saveNext = false;
 		
 		for( StackTraceElement ste : ex.getStackTrace() ) {
@@ -34,6 +34,21 @@ public abstract class Reporter  {
 				if ( ste.getMethodName().startsWith("assert") || 
 					 ste.getMethodName().startsWith("fail") ) {
 					saveNext = true;
+				}
+			}
+		}
+		
+		if ( properFrame == null ) {
+			properFrame = "";
+			int count = 0;
+			for( StackTraceElement ste : ex.getStackTrace() ) {
+				if ( count > 0 ) {
+					 properFrame = properFrame + "            ";
+				}
+				properFrame = properFrame + ste.toString() + "\n";
+				count++;
+				if ( count == 5 ) {
+					break;
 				}
 			}
 		}

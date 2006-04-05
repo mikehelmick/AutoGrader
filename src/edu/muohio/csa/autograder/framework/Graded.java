@@ -3,6 +3,8 @@
  */
 package edu.muohio.csa.autograder.framework;
 
+import java.lang.reflect.Constructor;
+import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.List;
@@ -58,17 +60,37 @@ public abstract class Graded extends Observable {
 			}
 		}
 	}
-
 	
+	/**
+	 * Get an instance with a single parameter constructor
+	 * @param <T>
+	 * @param tClass
+	 * @param param
+	 * @return
+	 * @throws GradingException
+	 */
 	@SuppressWarnings("unchecked")
-	protected final <T> T getInstanceOfObject( Class<? extends T> tClass ) throws GradingException {
+	protected final <T> T getInstanceOfObject( Class<? extends T> tClass, Object ...param ) throws GradingException {
 		T rtnObj = null;
 		
 		try {
 			Class clazz = Class.forName( underTest );
 			
-			rtnObj = (T) clazz.newInstance();
+			if ( param != null && param.length > 0 ) { 
+				Constructor[] constructors = clazz.getConstructors();
+				for( int i = 0; i < constructors.length; i++ ) {
+					if ( constructors[i].getParameterTypes().length == param.length ) {
+						rtnObj = (T) constructors[i].newInstance( param );
+						if ( rtnObj != null ) {
+							break;
+						}
+					}
+				}
+			}
 			
+			if ( rtnObj == null ) {
+				rtnObj = (T) clazz.newInstance();
+			}
 		} catch( ClassNotFoundException ex ) {
 			throw new GradingException( this.underTest + " could not be instantiated.", ex );
 		} catch( ClassCastException ex ) {
@@ -76,6 +98,8 @@ public abstract class Graded extends Observable {
 		} catch (InstantiationException ex ) {
 			throw new GradingException( this.underTest + " could not be instantiated.", ex );
 		} catch (IllegalAccessException ex ) {
+			throw new GradingException( this.underTest + " could not be instantiated.", ex );
+		} catch (InvocationTargetException ex ) {
 			throw new GradingException( this.underTest + " could not be instantiated.", ex );
 		}
 		

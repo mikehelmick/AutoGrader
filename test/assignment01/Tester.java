@@ -18,7 +18,7 @@ public class Tester {
 		session.addTextUI();
 		session.addConsoleReporter();
 		try {
-			session.addFileReporter( "/Users/mhelmick/Desktop/GRADES" );
+			session.addFileReporter( "/Users/helmicmt/Desktop/GRADES" );
 		} catch ( Exception ex ) {}
 			
 		GradingPackage asgn1Pkg = new GradingPackage( new Assignment1Grader(), "assignment1", "MyAssignment1" );

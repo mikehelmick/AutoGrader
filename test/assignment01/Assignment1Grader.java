@@ -25,4 +25,13 @@ public class Assignment1Grader extends Graded {
 		
 	}
 	
+	@SuppressWarnings("unchecked")
+	public void grade_with_param_constructor() throws GradingException {
+		
+		Assignment1<String> testClass = (Assignment1<String>) this.getInstanceOfObject( Assignment1.class, "text" );
+		
+		assertEquals( testClass.getItem(), "text" );
+		
+	}
+	
 }

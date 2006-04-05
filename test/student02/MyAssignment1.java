@@ -8,6 +8,20 @@ import assignment01.Assignment1;
 
 public class MyAssignment1<E> implements Assignment1<E> {
 
+	private String item;
+	
+	public MyAssignment1() {
+		
+	}
+	
+	public MyAssignment1( String item ) {
+		this.item = item;
+	}
+	
+	public String getItem (){
+		return item;
+	}
+	
 	public E getE( E obj ) {
 		return obj;
 	}
