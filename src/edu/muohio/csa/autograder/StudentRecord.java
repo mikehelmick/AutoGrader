@@ -3,15 +3,15 @@
  */
 package edu.muohio.csa.autograder;
 
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.TreeMap;
 
 public class StudentRecord {
 
 	private String studentId;
 	private String studentName;
-	private Map<String,List<TestResult>> gradingResults = new TreeMap<String,List<TestResult>>();
+	private Map<String,List<TestResult>> gradingResults = new LinkedHashMap<String,List<TestResult>>();
 	
 	public StudentRecord( String studentId, String studentName ) {
 		this.studentId = studentId;

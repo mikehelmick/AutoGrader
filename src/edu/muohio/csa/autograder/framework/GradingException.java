@@ -3,7 +3,17 @@
  */
 package edu.muohio.csa.autograder.framework;
 
+/**
+ * Application level exception
+ * @author mhelmick
+ *
+ */
 public class GradingException extends Exception {
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 3901097520908353515L;
 
 	public GradingException() {
 		super();
