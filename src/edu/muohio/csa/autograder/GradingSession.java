@@ -24,6 +24,32 @@ import edu.muohio.csa.autograder.report.Reporter;
 import edu.muohio.csa.autograder.ui.TextUI;
 import edu.muohio.csa.autograder.ui.UI;
 
+/**
+ * MAnages a complete grading session.   In order to test student code, you
+ * will create a grading session, add grading pacakges to it, and execute the session
+ * as shown below.
+ * 
+ * <code>
+ * GradingSession session = new GradingSession();
+		session.addTextUI();
+		session.addConsoleReporter();
+		try {
+			session.addFileReporter( "/Users/mhelmick/Desktop/GRADES" );
+		} catch ( Exception ex ) {}
+			
+		GradingPackage asgn1Pkg = new GradingPackage( new Assignment1Grader(), "assignment1", "MyAssignment1" );
+		session.addPackage( asgn1Pkg );
+		
+		session.addStudent( new StudentRecord( "student01", "Test Student" ) );
+		session.addStudent( new StudentRecord( "student02", "J.D." ) );
+		session.addStudent( new StudentRecord( "student03", "Slacker" ) );
+		 
+		session.run();
+	</code>
+ * 
+ * @author Mike Helmick
+ *
+ */
 public class GradingSession extends Observable implements Runnable {
 	
 	private List<StudentRecord> students = new ArrayList<StudentRecord>();
@@ -41,6 +67,10 @@ public class GradingSession extends Observable implements Runnable {
 	public GradingSession() {	
 	}
 	
+	/**
+	 * Set the time limit for student method invocations.   This limit has a default value of 60 seconds.
+	 * @param threadTime - Execution time to allow in seconds, must be 1 or higher.   
+	 */
 	public void setThreadTime( int threadTime ) {
 		if ( threadTime >= 1 ) {
 			this.threadTime = threadTime;
@@ -49,9 +79,15 @@ public class GradingSession extends Observable implements Runnable {
 		}
 	}
 	
+	/**
+	 * Used to add items to the classpath if necessary.
+	 * @param dirPath
+	 * @throws IOException
+	 */
 	public void addStudentClassPath( String dirPath ) throws IOException {
 		DynamicLoader.addFile( dirPath );
 	}
+	
 	
 	private boolean observersContains( Class clazz ) {
 		boolean contains = false;
@@ -65,30 +101,50 @@ public class GradingSession extends Observable implements Runnable {
 		return contains;
 	}
 	
+	/**
+	 * Add a text user interface to the grading session.  <br/>
+	 * <i>If you do not add this, you won't see any output.</i>
+	 */
 	public void addTextUI() {
 		if ( ! observersContains( TextUI.class ) ) {
 			this.addObserver( new TextUI() );
 		}
 	}
 	
+	/**
+	 * Add a console reporter - provides up to date information to the console.
+	 */
 	public void addConsoleReporter() {
 		reporters.add( new ConsoleReporter() );
 	}
 	
+	/**
+	 * Diasable the console repoter.
+	 *
+	 */
 	public void removeConsoleReporter() {
 		removeInstanceOf( ConsoleReporter.class );
 	}
 	
+	/**
+	 * Has no effect
+	 * @deprecated
+	 */
 	public void addPrinterReporter() {
-		reporters.add( new PrinterReporter() );
+		//reporters.add( new PrinterReporter() );
 	}
-	
+
+	/**
+	 * Has no effect
+	 * @deprecated
+	 */
 	public void removePrinterReporter() {
-		removeInstanceOf( PrinterReporter.class );
+		//removeInstanceOf( PrinterReporter.class );
 	}
 	
 	/**
-	 * 
+	 * Adds a file reporter - this will write a report for each student to the directory specified.</br>
+	 * The directory must exist.
 	 * @param dir
 	 * @throws IOException if the directory string passed in does not resolve to a directory
 	 */
@@ -96,6 +152,9 @@ public class GradingSession extends Observable implements Runnable {
 		reporters.add( new FileReporter( dir ) );
 	}
 	
+	/**
+	 * Disable the file reporter 
+	 */
 	public void removeFileReporter() {
 		removeInstanceOf( FileReporter.class );
 	}
@@ -127,6 +186,9 @@ public class GradingSession extends Observable implements Runnable {
 	}
 
 
+	/**
+	 * Execute the grading session.  The last step after it has been set up.
+	 */
 	@SuppressWarnings({"unchecked","deprecation"})
 	public void run() {
 		setChanged();
@@ -285,18 +347,35 @@ public class GradingSession extends Observable implements Runnable {
 		}
 	}
 	
+	/**
+	 * Add a student to be graded
+	 * @param student
+	 */
 	public void addStudent( StudentRecord student ) {
 		students.add( student );
 	}
 	
+	/**
+	 * Add a grading package<br/>
+	 * The same package can be added multiple times.  We do this when student implement the same interfaces several times.
+	 * @param pkg
+	 */
 	public void addPackage( GradingPackage pkg ) {
 		packages.add( pkg );
 	}
 
+	/**
+	 * Get a list of the already added grading packages
+	 * @return
+	 */
 	public List<GradingPackage> getGradingPackages() {
 		return packages;
 	}
 	
+	/**
+	 * Get a list of student records added
+	 * @return
+	 */
 	public List<StudentRecord> getStudents() {
 		return students;
 	}

@@ -10,7 +10,11 @@ import edu.muohio.csa.autograder.StudentRecord;
 import edu.muohio.csa.autograder.TestResult;
 
 
-
+/**
+ * Writes progress of the grading session to the console
+ * @author mhelmick
+ *
+ */
 public class TextUI extends UI {
 
 	public TextUI() {

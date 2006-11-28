@@ -8,6 +8,10 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
 
+/**
+ * Possibly the most useful reporter - writes individual student grading reports to a file.
+ * @author mhelmick
+ */
 public class FileReporter extends Reporter {
 
 	private String dir = "/";

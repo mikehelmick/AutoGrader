@@ -14,7 +14,11 @@ import edu.muohio.csa.autograder.TestResult;
 import edu.muohio.csa.autograder.framework.Graded;
 import edu.muohio.csa.autograder.framework.GradingException;
 
-
+/**
+ * Abstract class for a reporter - allows you to write your own reporters should you choose to do so.
+ * @author mhelmick
+ *
+ */
 public abstract class Reporter  {
 	
 	public String getPropperStackFrame( GradingException ex ) {

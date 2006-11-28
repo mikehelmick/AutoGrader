@@ -5,6 +5,11 @@ package edu.muohio.csa.autograder.report;
 
 import java.io.OutputStream;
 
+/**
+ * Writes student reports to the console
+ * @author mhelmick
+ *
+ */
 public class ConsoleReporter extends Reporter {
 
 	@Override

@@ -10,6 +10,12 @@ import javax.swing.JFrame;
 import edu.muohio.csa.autograder.AutoGrader;
 import edu.muohio.csa.autograder.GradingSession;
 
+/**
+ * There is no SwingUI at this point.
+ * If one is needed, this class will be finished.
+ * @author mhelmick
+ * @deprecated
+ */
 public class SwingUI extends UI{
 
 	private GradingSession session = new GradingSession();

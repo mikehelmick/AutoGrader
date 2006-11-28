@@ -3,6 +3,12 @@
  */
 package edu.muohio.csa.autograder;
 
+/**
+ * AutoGrader is a framework for automatically exercising student programming assignments for functionality.
+ * 
+ * @author mhelmick
+ *
+ */
 public class AutoGrader {
 
 	public static final String SYS_NAME = "AutoGrader";

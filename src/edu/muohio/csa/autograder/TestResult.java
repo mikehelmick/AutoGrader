@@ -5,6 +5,11 @@ package edu.muohio.csa.autograder;
 
 import edu.muohio.csa.autograder.framework.GradingException;
 
+/**
+ * Individual test result for a student
+ * @author mhelmick
+ *
+ */
 public class TestResult {
 
 	private String studentId = "";
@@ -16,6 +21,17 @@ public class TestResult {
 	private long endTime = 0;
 	
 	private GradingException gradingException = null;
+	
+	public TestResult( TestResult other ) {
+		// OK to link pointers - setters will override
+		this.studentId = other.studentId;
+		this.className = other.className;
+		this.testName = other.testName;
+		this.passed = other.passed;
+		this.startTime = other.startTime;
+		this.endTime = other.endTime;
+		this.gradingException = other.gradingException;
+	}
 	
 	public TestResult( String studentId, String className, String testName, boolean passed ) {
 		this.studentId = studentId;

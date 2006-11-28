@@ -7,6 +7,11 @@ import java.io.OutputStream;
 import java.io.PrintWriter;
 import java.util.Stack;
 
+/**
+ * Utility class for HTML tag generation
+ * @author mhelmick
+ *
+ */
 public class HtmlWriter {
 
 	private OutputStream oStream = null;

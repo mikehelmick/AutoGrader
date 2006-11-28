@@ -5,7 +5,7 @@ package edu.muohio.csa.autograder.framework;
 
 /**
  * Application level exception
- * @author mhelmick
+ * @author Mike Helmick
  *
  */
 public class GradingException extends Exception {

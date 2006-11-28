@@ -22,6 +22,14 @@ import javax.print.attribute.standard.MediaName;
 
 import edu.muohio.csa.autograder.StudentRecord;
 
+/**
+ * The idea was to spool repots directly to the printer. <br/>
+ * 
+ * This class is not functionalal - feel free to fix it and submit a patch.
+ * 
+ * @author mhelmick
+ * @deprecated
+ */
 public class PrinterReporter extends Reporter {
 
 	private void printHTML( String html ) {

@@ -11,6 +11,11 @@ import java.util.concurrent.ConcurrentLinkedQueue;
 import edu.muohio.csa.autograder.GradingSession;
 import edu.muohio.csa.autograder.framework.Graded;
 
+/**
+ * Abstract class for a UI, allows you to write your own
+ * @author mhelmick
+ *
+ */
 public abstract class UI implements Observer {
 	
 	protected Graded graded = null;

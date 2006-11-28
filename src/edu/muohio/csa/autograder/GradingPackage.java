@@ -5,7 +5,14 @@ package edu.muohio.csa.autograder;
 
 import edu.muohio.csa.autograder.framework.Graded;
 
-
+/**
+ * A GradingPackage is an object that holds a single Graded object (Graded objects are created by the user). <br/>
+ * <br/>
+ * The Grading package simply carries information used by the GradingSession
+ * 
+ * @author Mike Helmick
+ *
+ */
 public class GradingPackage {
 	
 	private String gradingSetName;

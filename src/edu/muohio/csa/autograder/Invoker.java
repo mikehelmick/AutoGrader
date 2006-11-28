@@ -6,7 +6,17 @@ import java.lang.reflect.Method;
 import edu.muohio.csa.autograder.framework.Graded;
 import edu.muohio.csa.autograder.framework.GradingException;
 
-public class Invoker implements Runnable {
+/**
+ * <p>
+ * Class used to spin off infocations of student code<br/>
+ * Each method invocation for a student is isolated in a separate thread, attempting to 
+ * catch all fatal errors and continue to execute the remainig students' code.
+ * <p>
+ * <p><i> 
+ * 
+ * @author Mike Helmick
+ */
+class Invoker implements Runnable {
 
 	private TestResult result;
 	private Method method;

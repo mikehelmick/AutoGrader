@@ -15,15 +15,13 @@ import edu.muohio.csa.autograder.StudentRecord;
 
 
 /**
- * Gradable classes must extend this class.
- * 
- * any void method shose name starts with "grade" will be graded
+ * Gradable classes must extend this class.<br/>
+ * any void UPBLIC method there the name starts with "grade" will be graded (<i>case sensitive</i>)
  * 
  * project: AutoGrader
  * package: edu.muohio.csa.autograder.framework
  * 
- * @author mhelmick
- * @version $Id$
+ * @author Mike Helmick
  */
 public abstract class Graded extends Observable {
 	
@@ -41,6 +39,10 @@ public abstract class Graded extends Observable {
 	public Graded() {
 	}
 	
+	/**
+	 * Allows you to inspect the methods that the frameworks discovers as gradable
+	 * @return
+	 */
 	public List<Method> getMethodsUnderTest() {
 		initializeObject();
 		return gradeMethods;
