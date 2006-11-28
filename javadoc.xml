@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project default="javadoc">
+<target name="javadoc">
+<javadoc access="package" author="true" classpath="." destdir="/Users/mhelmick/Desktop/javadoc" doctitle="AutoGrader - Version 0.3.3" nodeprecated="false" nodeprecatedlist="false" noindex="false" nonavbar="false" notree="false" packagenames="student02,edu.muohio.csa.autograder.ui,edu.muohio.csa.autograder.classpath,edu.muohio.csa.autograder.framework,edu.muohio.csa.autograder,student01,assignment01,edu.muohio.csa.autograder.report" source="1.5" sourcepath="src:test" splitindex="true" use="true" version="true"/>
+</target>
+</project>
