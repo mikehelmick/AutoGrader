@@ -36,7 +36,17 @@ public class GradingSession extends Observable implements Runnable {
 	public int studentRecord = 0;
 	public int packageIndex = 0;
 	
+	private int threadTime = 60;
+	
 	public GradingSession() {	
+	}
+	
+	public void setThreadTime( int threadTime ) {
+		if ( threadTime >= 1 ) {
+			this.threadTime = threadTime;
+		} else {
+			throw new IllegalArgumentException("Time must be greater than or equal to 1 second");
+		}
 	}
 	
 	public void addStudentClassPath( String dirPath ) throws IOException {
@@ -165,7 +175,7 @@ public class GradingSession extends Observable implements Runnable {
 								
 								try { Thread.sleep(100); } catch ( Exception ex ) {}
 								
-								int secondsRemaining = 60;
+								int secondsRemaining = threadTime;
 								while( secondsRemaining > 0 && invokerThread.isAlive() ) {
 									try {
 										Thread.sleep(1000);
