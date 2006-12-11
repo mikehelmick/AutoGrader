@@ -24,6 +24,9 @@ public class Tester {
 		GradingPackage asgn1Pkg = new GradingPackage( new Assignment1Grader(), "assignment1", "MyAssignment1" );
 		session.addPackage( asgn1Pkg );
 		
+		session.addPMD( "test" );
+		session.setThreadTime( 2 );
+		
 		session.addStudent( new StudentRecord( "student01", "Test Student" ) );
 		session.addStudent( new StudentRecord( "student02", "J.D." ) );
 		session.addStudent( new StudentRecord( "student03", "Slacker" ) );

@@ -13,6 +13,7 @@ import edu.muohio.csa.autograder.StudentRecord;
 import edu.muohio.csa.autograder.TestResult;
 import edu.muohio.csa.autograder.framework.Graded;
 import edu.muohio.csa.autograder.framework.GradingException;
+import edu.muohio.csa.autograder.style.StyleException;
 
 /**
  * Abstract class for a reporter - allows you to write your own reporters should you choose to do so.
@@ -88,27 +89,45 @@ public abstract class Reporter  {
 					
 					int testCount = 0;
 					int passCount = 0;
+					boolean isStyle = false;
 					for( TestResult result : testResults ) {
-						output.println( "  >>>>>>>>>>>>>> test " + (++testCount) + " <<<<<<<<<<<<<<<" );
-						output.println( "     test name: " + result.getTestName() );
-						output.println( "  running time: " + result.getElapsedTime() );
-						
-						if ( result.isPassed() ) {
-							output.println( "   ** PASSED ** " );
-							passCount++;
-						} else {
-							output.println( "   !! FAILED !! " );
+						if ( !result.isPassed() && result.getGradingException() instanceof StyleException  ) {
+							output.println( "Style Violation: " + result.getTestName() );
+							output.println( ((StyleException)result.getGradingException()).getStyleReport() );
 							
-							output.println( "   reason=" + result.getGradingException().getMessage() );
-							output.println( " location=" + getPropperStackFrame( result.getGradingException() ) ); 
+							testCount++;
+							isStyle = true;
+						} else {
+						
+							output.println( "  >>>>>>>>>>>>>> test " + (++testCount) + " <<<<<<<<<<<<<<<" );
+							output.println( "     test name: " + result.getTestName() );
+							output.println( "  running time: " + result.getElapsedTime() );
+							
+							if ( result.isPassed() ) {
+								output.println( "   ** PASSED ** " );
+								passCount++;
+							} else {
+								output.println( "   !! FAILED !! " );
+								
+								if ( result.getGradingException() != null ) {
+									output.println( "   reason=" + result.getGradingException().getMessage() );
+									output.println( " location=" + getPropperStackFrame( result.getGradingException() ) ); 
+								} else {
+									output.println( "unknown failure - no exception reported");
+								}
+							}
 						}
 						
 						output.println( " " );
 					}
-
-					float passPercentage = (float) passCount / testCount * 100;
-					output.printf( "** package results: " + passCount + "/" + testCount + "   pass percentage: %.2f%n", passPercentage );
-					output.println( "** End Test Package = " + key + "\n\n");
+					
+					if ( isStyle ) {
+						output.println("Project contains " + testCount + " style violations" );
+					} else {
+						float passPercentage = (float) passCount / testCount * 100;
+						output.printf( "** package results: " + passCount + "/" + testCount + "   pass percentage: %.2f%n", passPercentage );
+						output.println( "** End Test Package = " + key + "\n\n");
+					}
  				}
 				
 				output.println( "-- End Grade Report ------------------------------------------" );

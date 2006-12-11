@@ -19,8 +19,9 @@ import edu.muohio.csa.autograder.framework.Graded;
 import edu.muohio.csa.autograder.framework.GradingException;
 import edu.muohio.csa.autograder.report.ConsoleReporter;
 import edu.muohio.csa.autograder.report.FileReporter;
-import edu.muohio.csa.autograder.report.PrinterReporter;
 import edu.muohio.csa.autograder.report.Reporter;
+import edu.muohio.csa.autograder.style.AutoGradePMD;
+import edu.muohio.csa.autograder.style.StyleException;
 import edu.muohio.csa.autograder.ui.TextUI;
 import edu.muohio.csa.autograder.ui.UI;
 
@@ -63,6 +64,8 @@ public class GradingSession extends Observable implements Runnable {
 	public int packageIndex = 0;
 	
 	private int threadTime = 60;
+	
+	private String pmdPath = null;
 	
 	public GradingSession() {	
 	}
@@ -334,6 +337,16 @@ public class GradingSession extends Observable implements Runnable {
 			notifyObservers( Boolean.TRUE );
 		}
 		
+		// PMD
+		if ( pmdPath != null ) {
+			AutoGradePMD agPMD = new AutoGradePMD();
+			for( StudentRecord student : students ) {
+				// set our current student
+				List<TestResult> trResults  = agPMD.checkJavaFiles( pmdPath, student.getStudentId() );
+				student.setTestResults("PMD-STYLE", trResults );
+			}
+		}
+		
 		// exiting
 		for( Observer ob : observers ) {
 			if ( ob instanceof UI ) {
@@ -386,6 +399,11 @@ public class GradingSession extends Observable implements Runnable {
 
 	public int getStudentRecord() {
 		return studentRecord;
+	}
+
+
+	public void addPMD(String srcPath ) {
+		this.pmdPath = srcPath;
 	}
 	
 	
