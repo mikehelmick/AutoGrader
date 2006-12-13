@@ -7,6 +7,7 @@ import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Set;
 
 import net.sourceforge.pmd.PMD;
 import net.sourceforge.pmd.PMDException;
@@ -42,7 +43,7 @@ public class AutoGradePMD {
 	}
 	
 	@SuppressWarnings("unchecked")
-	public List<TestResult> checkJavaFiles( String path, String pkgName ) {
+	public List<TestResult> checkJavaFiles( String path, String pkgName, Set<String> pmdExclude ) {
 		List<TestResult> list = new ArrayList<TestResult>();
 		
 		File dir = new File( path + File.separator + pkgName );
@@ -71,19 +72,21 @@ public class AutoGradePMD {
 						while( iter.hasNext() ) {
 							RuleViolation rn = iter.next();
 							
-							StringBuffer buf = new StringBuffer();
-							buf.append( rn.getClassName() + ": line " + rn.getBeginLine() + ", column " + rn.getBeginColumn() + "\n" );
-							buf.append( "    " + rn.getRule().getName() + "\n " + rn.getRule().getDescription().trim() + "\n" );
-							
-							TestResult res = new TestResult( rn.getClassName(),
-									                         rn.getRule().getName(), rn.getDescription().trim(), false );
-							StyleException ex = new StyleException();
-							ex.setStyleReport( buf.toString() );
-							res.setGradingException( ex );
-							
-							list.add( res );
-							
-							count++;
+							if ( ! pmdExclude.contains( rn.getRule().getName() ) ) {
+								StringBuffer buf = new StringBuffer();
+								buf.append( rn.getClassName() + ": line " + rn.getBeginLine() + ", column " + rn.getBeginColumn() + "\n" );
+								buf.append( "    " + rn.getRule().getName() + "\n " + rn.getRule().getDescription().trim() + "\n" );
+								
+								TestResult res = new TestResult( rn.getClassName(),
+										                         rn.getRule().getName(), rn.getDescription().trim(), false );
+								StyleException ex = new StyleException();
+								ex.setStyleReport( buf.toString() );
+								res.setGradingException( ex );
+								
+								list.add( res );
+								
+								count++;
+							}
 						}
 						
 					} catch ( PMDException ex ) {

@@ -66,6 +66,7 @@ public class GradingSession extends Observable implements Runnable {
 	private int threadTime = 60;
 	
 	private String pmdPath = null;
+	private Set<String> pmdExclude = new HashSet<String>();
 	
 	public GradingSession() {	
 	}
@@ -342,7 +343,7 @@ public class GradingSession extends Observable implements Runnable {
 			AutoGradePMD agPMD = new AutoGradePMD();
 			for( StudentRecord student : students ) {
 				// set our current student
-				List<TestResult> trResults  = agPMD.checkJavaFiles( pmdPath, student.getStudentId() );
+				List<TestResult> trResults  = agPMD.checkJavaFiles( pmdPath, student.getStudentId(), pmdExclude );
 				student.setTestResults("PMD-STYLE", trResults );
 			}
 		}
@@ -404,6 +405,14 @@ public class GradingSession extends Observable implements Runnable {
 
 	public void addPMD(String srcPath ) {
 		this.pmdPath = srcPath;
+	}
+	
+	public Set getPMDExclusions() {
+		return pmdExclude;
+	}
+	
+	public void addPMDExclusion( String testName ) {
+		this.pmdExclude.add( testName );
 	}
 	
 	
