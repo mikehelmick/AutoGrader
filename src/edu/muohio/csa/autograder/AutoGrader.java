@@ -12,6 +12,6 @@ package edu.muohio.csa.autograder;
 public class AutoGrader {
 
 	public static final String SYS_NAME = "AutoGrader w/ PMD";
-	public static final String VER_NAME = "0.4.1";
+	public static final String VER_NAME = "0.4.2";
 		
 }

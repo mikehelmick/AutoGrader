@@ -74,17 +74,17 @@ public class CheckStyle {
 						RuleViolation rn = iter.next();
 						
 						finalResults.append("violation" + count + ":\n");
-						finalResults.append("\tabs_path: " + args[i] + "\n" );
-						finalResults.append("\tfilename: " + rn.getFilename() + "\n" );
-						finalResults.append("\tbegin_line: " + rn.getBeginLine() + "\n" );
-						finalResults.append("\tbegin_column: " + rn.getBeginColumn() + "\n" );
-						finalResults.append("\tend_line: " + rn.getEndLine() + "\n" );
-						finalResults.append("\tend_column: " + rn.getEndColumn() + "\n");
-						finalResults.append("\tpackage: " + rn.getPackageName() + "\n" );
-						finalResults.append("\tclass: " + rn.getClassName() + "\n" );
-						finalResults.append("\trule_name: " + rn.getRule().getName() + "\n");
-						finalResults.append("\trule_description: " + rn.getRule().getDescription().trim().replaceAll("\n", "<br/>" ).replaceAll(" ", "&nbsp;" ) + "\n" );
-						finalResults.append("\texample: " + rn.getRule().getExample().trim().replaceAll("\n", "<br/>" ).replaceAll(" ", "&nbsp;" ) + "\n" );
+						finalResults.append("  abs_path: " + args[i] + "\n" );
+						finalResults.append("  filename: " + rn.getFilename() + "\n" );
+						finalResults.append("  begin_line: " + rn.getBeginLine() + "\n" );
+						finalResults.append("  begin_column: " + rn.getBeginColumn() + "\n" );
+						finalResults.append("  end_line: " + rn.getEndLine() + "\n" );
+						finalResults.append("  end_column: " + rn.getEndColumn() + "\n");
+						finalResults.append("  package: " + rn.getPackageName() + "\n" );
+						finalResults.append("  class: " + rn.getClassName() + "\n" );
+						finalResults.append("  rule_name: " + rn.getRule().getName() + "\n");
+						finalResults.append("  rule_description: " + rn.getRule().getDescription().trim().replaceAll("\n", "<br/>" ).replaceAll(" ", "&nbsp;" ) + "\n" );
+						finalResults.append("  example: " + rn.getRule().getExample().trim().replaceAll("\n", "<br/>" ).replaceAll(" ", "&nbsp;" ) + "\n" );
 						finalResults.append("\n");
 						
 						count++;
