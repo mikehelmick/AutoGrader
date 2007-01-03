@@ -74,7 +74,7 @@ public class CheckStyle {
 						RuleViolation rn = iter.next();
 						
 						finalResults.append("violation" + count + ":\n");
-						finalResults.append("  message: " + rn.getRule().getMessage() + "\n" );
+						finalResults.append("  message: " + rn.getDescription() + "\n" );
 						finalResults.append("  abs_path: " + args[i] + "\n" );
 						finalResults.append("  filename: " + rn.getFilename() + "\n" );
 						finalResults.append("  begin_line: " + rn.getBeginLine() + "\n" );
