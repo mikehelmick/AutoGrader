@@ -1,12 +1,11 @@
 package edu.muohio.csa.cscourseware;
 
 import java.io.FileInputStream;
-import java.io.IOException;
 import java.io.InputStream;
 import java.util.Iterator;
+import java.util.Random;
 
 import net.sourceforge.pmd.PMD;
-import net.sourceforge.pmd.PMDException;
 import net.sourceforge.pmd.Report;
 import net.sourceforge.pmd.RuleContext;
 import net.sourceforge.pmd.RuleSets;
@@ -30,6 +29,18 @@ public class CheckStyle {
 		} 
 		return fileName;
 	}
+	
+	private static String randomExcludeMarker() {
+		Random random = new Random();
+		
+		int size = random.nextInt(20);
+		StringBuffer buffer = new StringBuffer();
+		for( int i = 20; i < 20 + size; i++ ) {
+			buffer.append( random.nextInt(10) );
+		}
+		
+		return buffer.toString();
+	}
 
 	@SuppressWarnings("unchecked")
 	public static void main( String[] args ) {
@@ -51,7 +62,8 @@ public class CheckStyle {
 			System.exit(0);
 			
 		}
-			
+		
+		int count = 0;
 		for( int i = 0; i < args.length; i++ ) {
 			
 			if ( args[i].endsWith( ".java" ) ) {
@@ -62,19 +74,19 @@ public class CheckStyle {
 					context.setSourceCodeFilename( getContextName( args[i] ) );
 					
 					pmd.setJavaVersion( SourceType.JAVA_15 );
+					pmd.setExcludeMarker( randomExcludeMarker() );
 					pmd.processFile( is, "UTF-8", ruleSets, context );
 					
 					Report report = context.getReport();
 					
 					ReportTree tree = report.getViolationTree();
 					
-					int count = 0;
 					Iterator<RuleViolation> iter =  (Iterator<RuleViolation>) tree.iterator();
 					while( iter.hasNext() ) {
 						RuleViolation rn = iter.next();
 						
 						finalResults.append("violation" + count + ":\n");
-						finalResults.append("  message: " + rn.getDescription() + "\n" );
+						finalResults.append("  message: " + rn.getDescription().replaceAll("\n", "<br/>" ).replaceAll(" ", "&nbsp;" ) + "\n" );
 						finalResults.append("  abs_path: " + args[i] + "\n" );
 						finalResults.append("  filename: " + rn.getFilename() + "\n" );
 						finalResults.append("  begin_line: " + rn.getBeginLine() + "\n" );
@@ -93,7 +105,7 @@ public class CheckStyle {
 					
 					
 				} catch ( Exception ex ) {
-					finalResults.append("pmdexception" + i + ": " + ex.getMessage() );
+					finalResults.append("pmdexception" + i + ": " + ex.getMessage() +"\n\n" );
 				}
 		
 			}
